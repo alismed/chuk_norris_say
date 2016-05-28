@@ -1,6 +1,6 @@
 # Chuk Norris Says
 
-It is a script to show a randow joke by a randow animal.
+It is a script to show a random joke by a random animal.
 
 ## Example
 
