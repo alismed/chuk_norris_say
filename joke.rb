@@ -1,6 +1,8 @@
 require 'rest-client'
 require 'json'
 require 'find'
+require 'open3'
+require 'lolcat'
 
   def call_api
     apis = {
@@ -21,11 +23,22 @@ require 'find'
 
   animals = []
   regx = /.+?(?=\.cow)/
-  Dir.foreach("/usr/share/cowsay/cows/") do |file|
-    if regx.match(file)
-      animals << regx.match(file)
-    end
-  end
 
-system "cowsay -f #{animals.sample} #{call_api}"
+  if system "whereis cowsay > /dev/null"
+    cowsay_folder = ""
+
+    Open3.pipeline_r("whereis cowsay") do |o,e| 
+      cowsay_folder = o.read.chomp.split(' ')[2]
+    end 
+     
+    Dir.foreach(cowsay_folder + "/cows") do |file|
+      if regx.match(file)
+        animals << regx.match(file)
+      end
+    end
+
+    system "cowsay -f #{animals.sample} #{call_api} | lolcat"
+  elsif
+    p "cowsay not found"
+  end
 
