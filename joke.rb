@@ -30,7 +30,7 @@ require 'lolcat'
       animals_files = animals_files.split("\n")
     end
 
-    system "cowsay -f #{animals_files.sample} #{call_api} | lolcat"
+    system "cowsay -f #{animals_files.sample.gsub('.cow', '')} #{call_api} | lolcat"
   elsif
     p "cowsay not found"
   end
