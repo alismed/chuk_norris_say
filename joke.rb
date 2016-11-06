@@ -8,6 +8,7 @@ require 'lolcat'
     apis = {
 	    icndb: "http://api.icndb.com/jokes/random",
 	    yomomma: "http://api.yomomma.info/" }
+
     api = apis.to_a.sample
     response = RestClient.get(api.last)
     json     = JSON.parse(response)
@@ -21,23 +22,15 @@ require 'lolcat'
     joke.gsub(/'/, "\\\\'")
   end 
 
-  animals = []
-  regx = /.+?(?=\.cow)/
-
   if system "whereis cowsay > /dev/null"
-    cowsay_folder = ""
+    animals_files = nil 
 
-    Open3.pipeline_r("whereis cowsay") do |o,e| 
-      cowsay_folder = o.read.chomp.split(' ')[2]
-    end 
-     
-    Dir.foreach(cowsay_folder + "/cows") do |file|
-      if regx.match(file)
-        animals << regx.match(file)
-      end
+    Open3.pipeline_r('for i in $(cowsay -l); do echo "$i.cow"; done') do |o,e| 
+      animals_files = o.read.chomp
+      animals_files = animals_files.split("\n")
     end
 
-    system "cowsay -f #{animals.sample} #{call_api} | lolcat"
+    system "cowsay -f #{animals_files.sample} #{call_api} | lolcat"
   elsif
     p "cowsay not found"
   end
