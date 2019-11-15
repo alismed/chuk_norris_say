@@ -1,11 +1,24 @@
-# Chuk Norris Says
+## Chuk Norris Says
 
 It is a script to show a random joke by a random animal.
 
-## Example
+### Requisites
+
+- cowsay
+
+### Setup
 
 ```
+bundle install
+```
+
+### Example
+
+```
+ruby joke.rb
+
  _________________________________________
+
 / Chuck Norris writes code that optimizes \
 \ itself.                                 /
  -----------------------------------------
@@ -14,5 +27,4 @@ It is a script to show a random joke by a random animal.
             (__)\       )\/\
                 ||--WWW |
                 ||     ||
-
 ```
